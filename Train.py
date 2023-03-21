@@ -7,6 +7,7 @@ from tqdm import tqdm
 # Set the random seed for PyTorch
 torch.manual_seed(42)
 
+
 def run(model_type: str, epochs: int, lr: float, optim_type: str, num_classes: int,
         images: DataLoader):  # -> (object, dict):
     model = model_type_to_model(model_type, num_classes=num_classes)
@@ -70,7 +71,7 @@ def _epoch_train(images: DataLoader, model, optim: object):
     return model, (train_loss, train_accuracy)
 
 
-def optimiser_type_to_optimiser(optimiser_type: str, model: object, lr: float) -> object:
+def optimiser_type_to_optimiser(optimiser_type: str, model, lr: float) -> object:
     match optimiser_type:
         case 'Adam':
             return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)

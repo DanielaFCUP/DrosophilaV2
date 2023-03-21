@@ -14,6 +14,7 @@ import Train
 # Set the random seed for PyTorch
 torch.manual_seed(42)
 
+
 def run_preproc(conf: dict) -> ImageFolder:
     preproc_dir = PreProcess.run(mode=conf['preproc'], raw_image_directory=conf['raw'])
     return preproc_dir
