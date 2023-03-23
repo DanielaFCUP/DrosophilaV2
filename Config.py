@@ -29,7 +29,7 @@ def load() -> dict[str, int | float | str]:
     # Important: classes must be sorted
     parser.add_argument('--class-names', type=str, nargs='*', default=['Melanogaster', 'Nova', 'SF14'],
                         help='Classes for Classification (sorted).')
-    parser.add_argument('--preproc', type=str, choices=['skip', 'gaussian'], default='skip', nargs='?',
+    parser.add_argument('--preproc', type=str, choices=['skip', 'gaussian', 'mean', 'median', 'bilateral', 'otsu_gauss', 'unsharp'], default='skip', nargs='?',
                         help='Type of the preprocessing for the input images.')
 
     # Load Command Line arguments
