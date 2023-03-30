@@ -17,6 +17,8 @@ For 'state' parameter you can choose:
 - 'classify': it classifies the respective image. You must have a trained model first and point to it with the -m flag
 - 'full': it does everything from preprocessing to classification
 
+Obs: The results from training and testing are saved in /out/outputs.txt
+
 In config.yaml we can choose the parameters:
 - optim: 'Adam'
 - model: {'densenet', 'resnet', 'efficientnet'}
