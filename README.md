@@ -25,5 +25,4 @@ In config.yaml we can choose the parameters:
 - lr: !!float 5e-4
 - raw: 'in/'
 - pre_proc: {'skip', 'gauss', 'mean', 'median', 'bilateral', 'unsharp'}
-(obs: at this moment, just the 'skip' option is available)
 
