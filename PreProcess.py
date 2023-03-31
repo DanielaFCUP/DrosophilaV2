@@ -32,7 +32,7 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
         # directory already exists
         pass
 
-    if mode is "skip":
+    if mode == "skip":
         pre_processed_directory = raw_image_directory
     else:
         for classe in os.listdir(raw_image_directory):
