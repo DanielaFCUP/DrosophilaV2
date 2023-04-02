@@ -34,6 +34,7 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
 
     if mode == "skip":
         pre_processed_directory = raw_image_directory
+        #cv2.imwrite(new_img_path, new_img)
     else:
         for classe in os.listdir(raw_image_directory):
             raw_class_dir_path = os.path.join(raw_image_directory, classe)
@@ -43,6 +44,8 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                 match mode:
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
+                        if new_img == img:
+                            print("Something's going wrong")
                     case 'mean':
                         new_img = cv2.blur(img, (3, 3))
                     case 'median':
@@ -62,11 +65,13 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                     case bad:
                         raise ValueError('Pre-processing found illegal mode: ', bad)
                 pre_processed_directory_class = os.path.join(pre_processed_directory, classe)
+
                 try:
                     os.makedirs(pre_processed_directory_class)
                 except FileExistsError:
                     # directory already exists
                     pass
+
                 new_img_path = os.path.join(pre_processed_directory_class, img_name)
                 cv2.imwrite(new_img_path, new_img)
 
