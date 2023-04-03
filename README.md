@@ -26,5 +26,5 @@ In config.yaml we can choose the parameters:
 - batch: 16
 - lr: !!float 5e-4
 - raw: 'in/'
-- preproc: {'skip', 'gauss', 'gauss_threshold', 'median', 'bilateral', 'unsharp'}
+- preproc: {'skip', 'gaussian', 'gauss_threshold', 'median', 'bilateral', 'unsharp'}
 

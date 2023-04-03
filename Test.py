@@ -118,8 +118,10 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
             _, predicted = torch.max(outputs.data, 1)
             correct_predictions += labels.numpy().tolist()
             model_predictions += predicted.tolist()
-
-
+    # New
+    # accu = 100 * correct_predictions / total
+    # if accu == float('nan'):
+    #     torch.nan_to_num(accu)
 
     # F1 Score
     print(f1_class)
