@@ -23,6 +23,8 @@ def run_preproc(conf: dict) -> ImageFolder:
 def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     # Get the number of images in the dataset
     data_size = len(images_dir)
+    #print('images_dir: ', images_dir)
+    #print('len(images_dir:', len(images_dir))
 
     # Split the dataset into training and testing datasets with a 70-30 ratio
     train_size = int(0.7 * data_size)

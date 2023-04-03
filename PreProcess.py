@@ -34,7 +34,6 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
 
     if mode == "skip":
         pre_processed_directory = raw_image_directory
-        #cv2.imwrite(new_img_path, new_img)
     else:
         for classe in os.listdir(raw_image_directory):
             raw_class_dir_path = os.path.join(raw_image_directory, classe)
@@ -44,15 +43,9 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                 match mode:
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
-                        if new_img == img:
-                            print("Something's going wrong")
-                    case 'mean':
-                        new_img = cv2.blur(img, (3, 3))
-                    case 'median':
-                        new_img = cv2.medianBlur(img, 7)
                     case 'bilateral':
                         new_img = cv2.bilateralFilter(img, 10, 100, 100)
-                    case 'otsu_gauss':
+                    case 'gauss_threshold':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
                         # img2 = cv2.imread(new_img, cv2.IMREAD_GRAYSCALE)
                         img2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
