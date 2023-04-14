@@ -6,10 +6,11 @@
 
 1.3) Install requirements from the command line: pip install -r requirements.txt
 
+2) Create a folder named 'out' and a file inside it named 'outputs.txt'
 
-2) Change the parameters in the file config.yaml (just in case you want)
+3) Change the parameters in the file config.yaml, in case you want, except the outputs parameter
 
-5) Run it: python main.py -c conf/conf.yaml -r [state] -i [image] --preproc [preprocessing method]
+4) Run it: python main.py -c conf/conf.yaml -r [state] -i [image] --preproc [preprocessing method]
 For example: python main.py -c conf/conf.yaml -r full -i in/SF14/day1_low10.bmp
 For 'state' parameter you can choose:
 - 'preproc': it only does image preprocessing

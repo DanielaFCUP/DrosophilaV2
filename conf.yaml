@@ -1,0 +1,14 @@
+---
+optim: 'Adam'
+model: 'densenet'
+epochs: 3
+batch: 3
+lr: !!float 5e-4
+raw: '/data/in/'
+preproc: 'unsharp'
+outputs: '/data/out/outputs.txt'
+class_names:
+  - Melanogaster
+  - Nova
+  - SF14
+...
