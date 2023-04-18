@@ -1,14 +1,18 @@
-1) Create conda environment:
+1) Be sure you don't have any 'active' images or containers:
+1.1) docker rm -f -v $(docker ps -aq)
+1.2) docker rmi -f  $(docker images -q)
+1.3) docker volume rm $(docker volume ls -q)
 
-1.1) conda create -n mosquinha python=3.10
+2) Create conda environment:
 
-1.2) conda activate mosquinha
+2.1) conda create -n mosquinha python=3.10
 
-1.3) Install requirements from the command line: pip install -r requirements.txt
+2.2) conda activate mosquinha
 
-2) Create a folder named 'out' and a file inside it named 'outputs.txt'
+2.3) Install requirements from the command line: pip install -r requirements.txt
 
-3) Change the parameters in the file config.yaml, in case you want, except the outputs parameter
+
+3) Change the parameters in the file conf.yaml, in case you want, except the outputs parameter
 
 4) Run it: python main.py -c conf/conf.yaml -r [state] -i [image] --preproc [preprocessing method]
 For example: python main.py -c conf/conf.yaml -r full -i in/SF14/day1_low10.bmp
@@ -20,7 +24,7 @@ For 'state' parameter you can choose:
 
 Obs: The results from training and testing are saved in /out/outputs.txt
 
-In config.yaml we can choose the parameters:
+In conf.yaml we can choose the parameters:
 - optim: 'Adam'
 - model: {'densenet', 'resnet', 'efficientnet'}
 - epochs: Any integer greater than 0
