@@ -1,0 +1,25 @@
+FROM ubuntu:latest
+
+#ARG DEBIAN_FRONTEND=noninteractive
+#ENV TZ=Europe/Lisbon \ DEBIAN_FRONTEND=noninteractive
+#RUN apt-get -y update
+#RUN apt-get install ffmpeg libsm6 libxext6 -y
+#RUN apt-get install libopencv-dev python3-opencv -y
+#RUN apt-get install -y python3 python3-pip -y
+#WORKDIR /opt/Drosophila
+#COPY src .
+#RUN pip3 install -r /opt/Drosophila/requirements.txt
+#RUN pip3 install -r ./src/requirements.txt
+#RUN python3 ./src/main.py  --config ./conf/conf.yaml -r full -i ./in/SF14/day1_low10.bmp
+#WORKDIR /data
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Lisbon \ DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y update
+RUN apt-get install ffmpeg libsm6 libxext6 -y
+RUN apt-get install libopencv-dev python3-opencv -y
+RUN apt-get install -y python3 python3-pip -y
+WORKDIR /opt/Drosophila
+COPY src .
+RUN pip3 install -r /opt/Drosophila/requirements.txt
+WORKDIR /data

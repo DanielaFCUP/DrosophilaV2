@@ -55,12 +55,6 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     # Evaluate the model's F1 score and confusion matrix on the testing dataset
     class_report = Test.f1_and_confusion_matrix(images=test_img_dl, model=model, class_names=conf['class_names'])
     print(class_report)
-    
-    try:
-        os.makedirs('/data/out/outputs.txt')
-    except FileExistsError:
-        # directory already exists
-        pass
 
     with open(conf['outputs'], 'a') as f:
         for epoch in range(conf['epochs']):

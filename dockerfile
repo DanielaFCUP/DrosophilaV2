@@ -32,9 +32,9 @@ WORKDIR /data
 
 #xhost+
 
-#sudo docker run --rm -ti -e USERID=$UID -e USER=$USER -e DISPLAY=$DISPLAY -v /var/db:/var/db:Z -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/home/developer/.Xauthority -v "/home/danny/Code/Mosquinha:/data" -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp danny bash -c "conda init bash && cp /data/conf.yaml /conf && python /opt/main.py -c conf.yaml -r full -i /data/SF14/day1_low10.bmp"
+#sudo docker run --rm -ti -e USERID=$UID -e USER=$USER -e DISPLAY=$DISPLAY -v /var/db:/var/db:Z -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/home/developer/.Xauthority -v "/home/danny/Code/Mosquinha:/data" -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp daniela bash -c "conda init bash && cp /data/conf.yaml /conf && python /opt/main.py -c conf.yaml -r full -i /data/day1_low10.bmp"
 
-#sudo docker run --rm -ti -e USERID=$UID -e USER=$USER -e DISPLAY=$DISPLAY -v /var/db:/var/db:Z -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/home/developer/.Xauthority -v "/home/evolution2/Daniela/docker_def:/data" -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp pegi3s/identify bash -c "conda init bash && cp /data/config.yaml /conf && python /opt/main.py -c config.yaml -r classify -i /data/low29.bmp --model_pth /data/kidding_out/model.pth --model_state_dict /data/kidding_out/model_state_dict.txt"
+#sudo docker run --rm -ti -e USERID=$UID -e USER=$USER -e DISPLAY=$DISPLAY -v /var/db:/var/db:Z -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.Xauthority:/home/developer/.Xauthority -v "/home/danny/Code/Mosquinha:/data" -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp daniela bash -c "conda init bash && cp /data/conf.yaml /conf && python /opt/main.py -c conf.yaml -r classify -i /data/day1_low10.bmp"
 
 
 

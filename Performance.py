@@ -1,11 +1,10 @@
 import os
-
 import matplotlib.pyplot as plt
 
 
 def plots(train_accuracies: list, train_losses: list, test_accuracies: list, test_losses: list):
     try:
-        os.makedirs("out/plots/")
+        os.makedirs("/data/out/plots/")
     except FileExistsError:
         # directory already exists
         pass

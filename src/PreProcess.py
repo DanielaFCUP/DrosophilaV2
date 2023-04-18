@@ -1,5 +1,4 @@
 import os
-
 import cv2
 import torchvision
 from PIL import Image
@@ -43,6 +42,8 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                 match mode:
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
+                    case 'median':
+                        new_img = cv2.medianBlur(img, 5)
                     case 'bilateral':
                         new_img = cv2.bilateralFilter(img, 10, 100, 100)
                     case 'gauss_threshold':

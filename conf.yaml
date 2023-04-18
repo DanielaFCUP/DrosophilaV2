@@ -1,12 +1,12 @@
 ---
 optim: 'Adam'
-model: 'densenet'
-epochs: 3
-batch: 3
-lr: !!float 5e-4
+model: 'resnet'
+epochs: 10
+batch: 10
+lr: !!float 5e-3
 raw: '/data/in/'
 preproc: 'unsharp'
-outputs: '/data/out/outputs.txt'
+outputs: '/data/out/'
 class_names:
   - Melanogaster
   - Nova
