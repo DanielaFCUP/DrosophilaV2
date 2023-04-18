@@ -5,7 +5,7 @@ from PIL import Image
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import transforms
 
-pre_processed_directory = "/data/out/preproc_imgs/"
+pre_processed_directory = "out/preproc_imgs/"
 
 transformation = transforms.Compose([
     transforms.Resize(256),
@@ -43,6 +43,8 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
                     case 'median':
+                        #newImage = img.copy()
+                        #new_img = cv2.medianBlur(img, newImage, 5)
                         new_img = cv2.medianBlur(img, 5)
                     case 'bilateral':
                         new_img = cv2.bilateralFilter(img, 10, 100, 100)

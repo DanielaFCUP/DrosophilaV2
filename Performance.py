@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def plots(train_accuracies: list, train_losses: list, test_accuracies: list, test_losses: list):
     try:
-        os.makedirs("/data/out/plots/")
+        os.makedirs("out/plots/")
     except FileExistsError:
         # directory already exists
         pass

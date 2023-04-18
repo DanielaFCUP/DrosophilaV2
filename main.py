@@ -57,7 +57,7 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     class_report = Test.f1_and_confusion_matrix(images=test_img_dl, model=model, class_names=conf['class_names'])
     print(class_report)
 
-    with open('/data/out/outputs.txt', 'a') as f:
+    with open("out/outputs.txt", 'a') as f:
         for epoch in range(conf['epochs']):
             # print('epoch', epoch)
             f.writelines('EPOCH' + str(epoch + 1) + '\n' + 'Train Accuracy: \t' + str(
