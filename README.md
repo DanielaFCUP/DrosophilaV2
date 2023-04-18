@@ -1,6 +1,8 @@
 1) Be sure you don't have any 'active' images or containers:
 1.1) docker rm -f -v $(docker ps -aq)
+
 1.2) docker rmi -f  $(docker images -q)
+
 1.3) docker volume rm $(docker volume ls -q)
 
 2) Create conda environment:
