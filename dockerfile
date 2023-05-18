@@ -28,6 +28,9 @@ COPY Performance.py /opt
 COPY PreProcess.py /opt
 COPY Train.py /opt
 COPY Test.py /opt
+
+RUN pip install rembg
+
 WORKDIR /data
 
 #xhost+

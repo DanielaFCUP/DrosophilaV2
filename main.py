@@ -35,6 +35,8 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     # Create data loaders for the training and testing datasets
     train_img_dl = torch.utils.data.DataLoader(train_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
     test_img_dl = torch.utils.data.DataLoader(test_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
+    print('train dl', len(train_img_dl))
+    print('test dl', len(test_img_dl))
 
     # Train a model on the training dataset and obtain the model and its training statistics
     (model, (train_losses, train_accuracies)) = Train.run(model_type=conf['model'],

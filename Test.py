@@ -28,7 +28,7 @@ def run(epochs: int, images: DataLoader, model) -> (list, list):
 
 def _epoch_test(images: DataLoader, model) -> (list, list):
     # Let's put our network in classification mode
-    model.eval()
+    #model.eval()
 
     # Performance Data
     correct = 0
@@ -93,35 +93,17 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
             total += labels.size(0)
             correct += predicted.eq(labels).sum().item()
 
-            # f1 score
+            # F1 score
             correct_predictions += labels.numpy().tolist()
             model_predictions += predicted.numpy().tolist()
 
             f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
-            #if f1_score_class.any() == float('nan'):
-            #    f1_score_class[] = 0
-            #    f1_class.append(f1_score_class)
             f1_class.append(f1_score_class)
-
-
-            #f1_class.append(f1_score(correct_predictions, model_predictions, average=None))
-
-            #if type(model_predictions) == float('nan'):
-            #    model_predictions = 0
-
-            #if f1_score_class.any() == float('nan'):
-            #    f1_score_class = 0
-            #f1_class.append(f1_score(correct_predictions, model_predictions, average=None))
-            #f1_class.append(f1_score_class)
 
             # Build confusion matrix
             _, predicted = torch.max(outputs.data, 1)
             correct_predictions += labels.numpy().tolist()
             model_predictions += predicted.tolist()
-    # New
-    # accu = 100 * correct_predictions / total
-    # if accu == float('nan'):
-    #     torch.nan_to_num(accu)
 
     # F1 Score
     print(f1_class)
@@ -146,7 +128,6 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
     plt.savefig('out/plots/test_confusion_matrix.png')
     plt.show()
 
-    #report = classification_report(correct_predictions, model_predictions, target_names=class_names)
+    report = classification_report(correct_predictions, model_predictions, target_names=class_names)
 
-    #return report
-    return classification_report(correct_predictions, model_predictions, target_names=class_names)
+    return report

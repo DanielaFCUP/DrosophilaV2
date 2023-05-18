@@ -1,11 +1,11 @@
 ---
 optim: 'Adam'
 model: 'resnet'
-epochs: 10
-batch: 10
-lr: !!float 5e-3
-raw: '/data/in/'
-preproc: 'median'
+epochs: 40
+batch: 16
+lr: !!float 1e-4
+raw: 'in/'
+preproc: 'skip'
 class_names:
   - Melanogaster
   - Nova
