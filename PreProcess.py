@@ -4,6 +4,9 @@ import torchvision
 from PIL import Image
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import transforms
+import math
+import rembg
+from rembg import remove
 
 pre_processed_directory = "out/preproc_imgs/"
 
@@ -40,6 +43,8 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                 path_to_img = os.path.join(raw_class_dir_path, img_name)
                 img = cv2.imread(path_to_img)
                 match mode:
+                    case 'remove_background':
+                        new_img = remove(img)
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
                     case 'median':
@@ -52,8 +57,8 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                         new_img = cv2.GaussianBlur(img, (5, 5), 0)
                         # img2 = cv2.imread(new_img, cv2.IMREAD_GRAYSCALE)
                         img2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
-                        _, th = cv2.threshold(img2, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-                        new_img = th
+                        th, _ = cv2.threshold(img2, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+                        th2, new_img = cv2.threshold(img2, math.floor(th), 255, cv2.THRESH_BINARY)
                     case 'unsharp':
                         img2 = cv2.GaussianBlur(img, (5, 5), 0)
                         img3 = img - img2  # mask
