@@ -27,9 +27,9 @@ def load() -> dict[str, int | float | str]:
     parser.add_argument('--raw', type=str, default='in/', nargs='?', help='Path to the raw images directory.')
     parser.add_argument('-i', '--image', type=str, default=None, nargs='?', help='Path to the input image.')
     # Important: classes must be sorted
-    parser.add_argument('--class-names', type=str, nargs='*', default=['Melanogaster', 'Nova', 'SF14'],
-                        help='Classes for Classification (sorted).')
-    parser.add_argument('--preproc', type=str, choices=['skip', 'remove_background', 'bilateral', 'gaussian', 'median', 'gauss_threshold', 'unsharp'], default='skip', nargs='?',
+    parser.add_argument('--class-names', type=str, nargs='*', default=['class 1', 'class 2', 'class 3'],
+                        help='Classes for Classification (sorted). Important: classes must be sorted.')
+    parser.add_argument('--preproc', type=str, choices=['skip', 'remove_background', 'bilateral', 'gaussian', 'median', 'unsharp'], default='skip', nargs='?',
                         help='Type of the preprocessing for the input images.')
 
     # Load Command Line arguments

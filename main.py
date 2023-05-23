@@ -47,16 +47,18 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
                                                           images=train_img_dl)
 
     # Test the trained model on the testing dataset and obtain its test statistics
-    (test_losses, test_accuracies) = Test.run(epochs=conf['epochs'], images=test_img_dl, model=model)
+    (test_losses, test_accuracies, f1_scores) = Test.run(epochs=conf['epochs'], images=test_img_dl, model=model)
 
     # Plot the training and testing statistics
     Performance.plots(train_accuracies=train_accuracies,
                       test_accuracies=test_accuracies,
                       train_losses=train_losses,
-                      test_losses=test_losses)
+                      test_losses=test_losses,
+                      f1_scores=f1_scores,
+                      class_names=conf['class_names'])
 
     # Evaluate the model's F1 score and confusion matrix on the testing dataset
-    class_report = Test.f1_and_confusion_matrix(images=test_img_dl, model=model, class_names=conf['class_names'])
+    class_report = Test.matrix_of_confusion(images=test_img_dl, model=model, class_names=conf['class_names'])
     print(class_report)
 
     with open("out/outputs.txt", 'a') as f:
