@@ -71,6 +71,8 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
     running_loss = 0
     correct_predictions = []  # Ground-truth labels for the test set
     model_predictions = []  # List of the predicted labels for the test set
+    correct_predictions_mat = []  # Ground-truth labels for the test set
+    model_predictions_mat = []  # List of the predicted labels for the test set
     f1_class = []
 
     # since we're not training, we don't need to calculate the gradients for our outputs
@@ -97,20 +99,24 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
             correct_predictions += labels.numpy().tolist()
             model_predictions += predicted.numpy().tolist()
 
-            f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
-            f1_class.append(f1_score_class)
+            #f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
+            #f1_class.append(f1_score_class)
 
             # Build confusion matrix
             _, predicted = torch.max(outputs.data, 1)
-            correct_predictions += labels.numpy().tolist()
-            model_predictions += predicted.tolist()
+            correct_predictions_mat += labels.numpy().tolist()
+            model_predictions_mat += predicted.tolist()
+
+        f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
+        f1_class.append(f1_score_class)
+
 
     # F1 Score
     print(f1_class)
     plt.plot(f1_class, '-o')
-    plt.xlabel('Batch')
+    plt.xlabel('Epoch')
     plt.ylabel('F1-score')
-    plt.legend(['Class 0', 'Class 1', 'Class 2'])
+    plt.legend(['Class 1', 'Class 2', 'Class 3', 'Class4'])
     plt.title('F1')
     plt.savefig('out/plots/f1-score.png')
     plt.show()
