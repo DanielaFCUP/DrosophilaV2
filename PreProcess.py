@@ -46,21 +46,21 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                     case 'remove_background':
                         new_img = remove(img)
                     case 'gaussian':
-                        new_img = cv2.GaussianBlur(img, (5, 5), 0)
+                        new_img = cv2.GaussianBlur(img, (5, 5), 1)
                     case 'median':
                         #newImage = img.copy()
                         #new_img = cv2.medianBlur(img, newImage, 5)
                         new_img = cv2.medianBlur(img, 5)
                     case 'bilateral':
                         new_img = cv2.bilateralFilter(img, 10, 100, 100)
-                    case 'gauss_threshold':
-                        new_img = cv2.GaussianBlur(img, (5, 5), 0)
-                        # img2 = cv2.imread(new_img, cv2.IMREAD_GRAYSCALE)
-                        img2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
-                        th, _ = cv2.threshold(img2, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-                        th2, new_img = cv2.threshold(img2, math.floor(th), 255, cv2.THRESH_BINARY)
+                    #case 'gauss_threshold':
+                    #    new_img = cv2.GaussianBlur(img, (5, 5), 0)
+                    #    # img2 = cv2.imread(new_img, cv2.IMREAD_GRAYSCALE)
+                    #    img2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
+                    #    th, _ = cv2.threshold(img2, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+                    #    th2, new_img = cv2.threshold(img2, math.floor(th), 255, cv2.THRESH_BINARY)
                     case 'unsharp':
-                        img2 = cv2.GaussianBlur(img, (5, 5), 0)
+                        img2 = cv2.GaussianBlur(img, (5, 5), 1)
                         img3 = img - img2  # mask
                         new_img = img + img3
                     case bad:

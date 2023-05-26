@@ -38,13 +38,13 @@ def _epoch_train(images: DataLoader, model, optim: object):
     # Loss criterion will always be CrossEntropy
     criterion = nn.CrossEntropyLoss()
 
-    # Let's put our network in training mode
-    model.train()
-
     # Performance Data
     correct = 0
     total = 0
     running_loss = 0
+
+    # Let's put our network in training mode
+    model.train()
 
     for data in tqdm(images):
         # get the inputs; data is a list of [inputs, labels]
@@ -75,6 +75,8 @@ def optimiser_type_to_optimiser(optimiser_type: str, model, lr: float) -> object
     match optimiser_type:
         case 'Adam':
             return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
+        case 'SGD':
+            return torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
         case bad:
             raise ValueError("Illegal optimiser type: ", bad)
 

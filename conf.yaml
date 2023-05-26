@@ -1,13 +1,13 @@
 ---
-optim: 'Adam'
+optim: 'SGD'
 model: 'resnet'
-epochs: 40
+epochs: 20
 batch: 16
-lr: !!float 1e-4
+lr: !!float 1e-6
 raw: 'in/'
 preproc: 'skip'
 class_names:
   - Melanogaster
   - Nova
-  - SF14
+  - Americana
 ...

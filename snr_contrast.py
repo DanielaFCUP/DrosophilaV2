@@ -5,6 +5,7 @@ from math import log10
 import matplotlib.pyplot as plt
 import rembg
 
+"""
 def pre_process(img, filter, k): # k: kernel
     img = cv2.imread(img)
     #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -19,6 +20,7 @@ def pre_process(img, filter, k): # k: kernel
         img3 = img - img2  # mask
         new_img = img + img3
     return new_img
+"""
 
 def getPSNR(img1, img2):
     img1 = cv2.imread(img1)
@@ -36,6 +38,8 @@ def getPSNR(img1, img2):
         print('PSNR:', psnr)
         return psnr
 
+img1 = '/home/danny/Code/Mosquinha/Melanogaster_after.png'
+img2 = ''
 """
 img1 = '/home/danny/Code/images_legs/americana_norte.png'
 img2 = '/home/danny/Code/images_legs/americana_norte_no_back.png'
@@ -67,10 +71,13 @@ def getContrast(img):
     contrast = maximum-minimum
     print("Constrast is of ", contrast)
 
+"""
 img1 = '/home/danny/Code/images_legs/americana_norte.png'
 getContrast(img1)
 img2 = '/home/danny/Code/images_legs/americana_norte_no_back.png'
 getContrast(img2)
+"""
+
 """
 img = '/home/danny/Code/Mosquinha/best_melanogaster.png'
 #no_back = '/home/danny/Code/Mosquinha/best3_melanogaster.png'

@@ -1,6 +1,6 @@
 import os
 import sys
-
+import numpy as np
 import torch
 from torch.utils.data import random_split
 from torchvision.datasets import ImageFolder
@@ -28,15 +28,15 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     #print('len(images_dir:', len(images_dir))
 
     # Split the dataset into training and testing datasets with a 70-30 ratio
-    train_size = int(0.7 * data_size)
-    test_size = data_size - train_size
+
+    train_size = int(0.8 * data_size)
+    #val_size = 0.1
+    test_size = data_size - train_size # -val_size
     (train_img_select, test_img_select) = random_split(images_dir, [train_size, test_size])
 
     # Create data loaders for the training and testing datasets
     train_img_dl = torch.utils.data.DataLoader(train_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
     test_img_dl = torch.utils.data.DataLoader(test_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
-    print('train dl', len(train_img_dl))
-    print('test dl', len(test_img_dl))
 
     # Train a model on the training dataset and obtain the model and its training statistics
     (model, (train_losses, train_accuracies)) = Train.run(model_type=conf['model'],
@@ -47,18 +47,16 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
                                                           images=train_img_dl)
 
     # Test the trained model on the testing dataset and obtain its test statistics
-    (test_losses, test_accuracies, f1_scores) = Test.run(epochs=conf['epochs'], images=test_img_dl, model=model)
+    (test_losses, test_accuracies) = Test.run(epochs=conf['epochs'], images=test_img_dl, model=model)
 
     # Plot the training and testing statistics
     Performance.plots(train_accuracies=train_accuracies,
                       test_accuracies=test_accuracies,
                       train_losses=train_losses,
-                      test_losses=test_losses,
-                      f1_scores=f1_scores,
-                      class_names=conf['class_names'])
+                      test_losses=test_losses)
 
     # Evaluate the model's F1 score and confusion matrix on the testing dataset
-    class_report = Test.matrix_of_confusion(images=test_img_dl, model=model, class_names=conf['class_names'])
+    class_report = Test.f1_and_confusion_matrix(images=test_img_dl, model=model, class_names=conf['class_names'])
     print(class_report)
 
     with open("out/outputs.txt", 'a') as f:
