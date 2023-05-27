@@ -26,8 +26,7 @@ COPY Config.py /opt
 COPY main.py /opt
 COPY Performance.py /opt
 COPY PreProcess.py /opt
-COPY Train.py /opt
-COPY Test.py /opt
+COPY Learn.py /opt
 
 RUN pip install rembg
 
