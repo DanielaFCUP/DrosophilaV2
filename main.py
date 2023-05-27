@@ -44,7 +44,7 @@ def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
                                                           optimiser=optimiser)
 
     # Test the trained model on the testing dataset and obtain its test statistics
-    (model, (test_losses, test_accuracies)) = Test.run(train_losses=train_losses,
+    (model, (test_losses, test_accuracies, train_losses, train_accuracies)) = Test.run(train_losses=train_losses,
                                                        train_accuracies=train_accuracies,
                                                        epochs=conf['epochs'],
                                                        images=test_img_dl,
