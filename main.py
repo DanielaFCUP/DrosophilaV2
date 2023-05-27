@@ -36,8 +36,8 @@ def run_learn(images_dir: ImageFolder, conf: dict):
     model = Learn.model_type_to_model(model_type=conf['model'], num_classes=len(images_dir.classes))
     optimiser = Learn.optimiser_type_to_optimiser(optimiser_type=conf['optim'], model=model, lr=conf['lr'])
 
-    # Train and Test a model on the training dataset and obtain the model and its training statistics
-    (model, (train_losses, train_accuracies, test_accuracies, test_losses)) = Learn.run(epochs=conf['epochs'],
+    # Train and Test a model on the dataset and obtain the model and its statistics
+    (model, (train_losses, train_accuracies, test_losses, test_accuracies)) = Learn.run(epochs=conf['epochs'],
                                                                                         train_images=train_img_dl,
                                                                                         test_images=test_img_dl,
                                                                                         model=model,
