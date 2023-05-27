@@ -14,7 +14,7 @@ import Train
 criterion = nn.CrossEntropyLoss()
 
 
-def run(train_losses: list, train_accuracies: list, epochs: int, images: DataLoader, model, optimiser) -> (list, list):
+def run(train_losses: list, train_accuracies: list, epochs: int, images: DataLoader, model, optimiser):  # -> object, (list, list, list, list):
     print("Testing has started.")
     test_losses = []
     test_accuracies = []
