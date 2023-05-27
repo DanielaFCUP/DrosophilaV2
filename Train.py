@@ -76,7 +76,7 @@ def optimiser_type_to_optimiser(optimiser_type: str, model, lr: float) -> object
         case 'Adam':
             return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
         case 'SGD':
-            return torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
+            return torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9)
         case bad:
             raise ValueError("Illegal optimiser type: ", bad)
 

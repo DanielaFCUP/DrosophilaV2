@@ -1,9 +1,5 @@
-import numpy as np
 import cv2
-import math
-from math import log10
-import matplotlib.pyplot as plt
-import rembg
+import numpy as np
 
 """
 def pre_process(img, filter, k): # k: kernel
@@ -22,21 +18,23 @@ def pre_process(img, filter, k): # k: kernel
     return new_img
 """
 
+
 def getPSNR(img1, img2):
     img1 = cv2.imread(img1)
     img2 = cv2.imread(img2)
-    s1 = np.abs(img1-img2) #|I1 - I2|
-    s1 = np.float32(s1)     # cannot make a square on 8 bits
-    s1 = s1 * s1            # |I1 - I2|^2
-    sse = s1.sum()          # sum elements per channel
-    if sse <= 1e-10:        # sum channels
-        return 0            # for small values return zero
+    s1 = np.abs(img1 - img2)  # |I1 - I2|
+    s1 = np.float32(s1)  # cannot make a square on 8 bits
+    s1 = s1 * s1  # |I1 - I2|^2
+    sse = s1.sum()  # sum elements per channel
+    if sse <= 1e-10:  # sum channels
+        return 0  # for small values return zero
     else:
         shape = img1.shape
         mse = 1.0 * sse / (shape[0] * shape[1] * shape[2])
-        psnr = 10.0 * np.log10((255**2) / mse)
+        psnr = 10.0 * np.log10((255 ** 2) / mse)
         print('PSNR:', psnr)
         return psnr
+
 
 img1 = '/home/danny/Code/Mosquinha/Melanogaster_after.png'
 img2 = ''
@@ -58,18 +56,20 @@ filter = '/home/danny/Code/Mosquinha/melanogaster3_unsharp_5.png'
 getPSNR(img, filter)
 """
 
+
 def getContrast(img):
     img = cv2.imread(img)
     maximum = np.max(img)
     print(maximum)
     minimum = np.min(img)
     print(minimum)
-    #contrast = (maximum-minimum)/(maximum+minimum)
-    #if maximum != minimum:
+    # contrast = (maximum-minimum)/(maximum+minimum)
+    # if maximum != minimum:
     #    contrast = (maximum - minimum)/(maximum + minimum)
-    #else:
-    contrast = maximum-minimum
+    # else:
+    contrast = maximum - minimum
     print("Constrast is of ", contrast)
+
 
 """
 img1 = '/home/danny/Code/images_legs/americana_norte.png'
@@ -190,5 +190,5 @@ def main():
         return psnr
 """
 
-#if __name__ == '__main__':
-    # main()
+# if __name__ == '__main__':
+# main()

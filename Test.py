@@ -51,9 +51,6 @@ def _epoch_test(images: DataLoader, model) -> (list, list):
             # statistics
             loss = criterion(outputs, labels)
             running_loss += loss.item()
-            #_, predicted = outputs.max(1)
-            #total += labels.size(0)
-            #correct += predicted.eq(labels).sum().item()
 
     test_loss = running_loss / len(images)
     test_accuracy = 100. * correct / total
@@ -90,8 +87,6 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
             loss = criterion(outputs, labels)
             running_loss += loss.item()
             _, predicted = outputs.max(1)
-            #total += labels.size(0)
-            #correct += predicted.eq(labels).sum().item()
 
             # F1 score
             correct_predictions += labels.numpy().tolist()
@@ -117,10 +112,8 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
 
     # Confusion Matrix
     cf_matrix = confusion_matrix(correct_predictions, model_predictions)
-    # Create pandas dataframe
     dataframe = pd.DataFrame(cf_matrix, index=class_names, columns=class_names)
     plt.figure(figsize=(8, 6))
-    # Create heatmap
     sns.heatmap(dataframe, annot=True, cbar=None, cmap="YlGnBu", fmt="d")
     plt.title("Test Confusion Matrix"), plt.tight_layout()
     plt.ylabel("True Class")

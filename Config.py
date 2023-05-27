@@ -29,7 +29,9 @@ def load() -> dict[str, int | float | str]:
     # Important: classes must be sorted
     parser.add_argument('--class-names', type=str, nargs='*', default=['class 1', 'class 2', 'class 3'],
                         help='Classes for Classification (sorted). Important: classes must be sorted.')
-    parser.add_argument('--preproc', type=str, choices=['skip', 'remove_background', 'bilateral', 'gaussian', 'median', 'unsharp'], default='skip', nargs='?',
+    parser.add_argument('--preproc', type=str,
+                        choices=['skip', 'remove_background', 'bilateral', 'gaussian', 'median', 'unsharp'],
+                        default='skip', nargs='?',
                         help='Type of the preprocessing for the input images.')
 
     # Load Command Line arguments
@@ -42,4 +44,3 @@ def load() -> dict[str, int | float | str]:
     # print("arguments: {}".format(str(args)))
 
     return args
-

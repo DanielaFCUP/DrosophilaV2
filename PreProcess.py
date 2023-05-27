@@ -1,12 +1,11 @@
 import os
+
 import cv2
 import torchvision
 from PIL import Image
+from rembg import remove
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import transforms
-import math
-import rembg
-from rembg import remove
 
 pre_processed_directory = "out/preproc_imgs/"
 
@@ -48,12 +47,12 @@ def run(mode: str, raw_image_directory: str) -> ImageFolder:
                     case 'gaussian':
                         new_img = cv2.GaussianBlur(img, (5, 5), 1)
                     case 'median':
-                        #newImage = img.copy()
-                        #new_img = cv2.medianBlur(img, newImage, 5)
+                        # newImage = img.copy()
+                        # new_img = cv2.medianBlur(img, newImage, 5)
                         new_img = cv2.medianBlur(img, 5)
                     case 'bilateral':
                         new_img = cv2.bilateralFilter(img, 10, 100, 100)
-                    #case 'gauss_threshold':
+                    # case 'gauss_threshold':
                     #    new_img = cv2.GaussianBlur(img, (5, 5), 0)
                     #    # img2 = cv2.imread(new_img, cv2.IMREAD_GRAYSCALE)
                     #    img2 = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)

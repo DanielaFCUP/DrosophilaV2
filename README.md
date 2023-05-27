@@ -2,10 +2,9 @@
 
 1.1) docker rm -f -v $(docker ps -aq)
 
-1.2) docker rmi -f  $(docker images -q)
+1.2) docker rmi -f $(docker images -q)
 
 1.3) docker volume rm $(docker volume ls -q)
-
 
 2Change the parameters in the file conf.yaml, in case you want, except the outputs parameter
 
