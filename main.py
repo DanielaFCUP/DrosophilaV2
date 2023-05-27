@@ -23,30 +23,33 @@ def run_preproc(conf: dict) -> ImageFolder:
 def run_train_and_test_chain(images_dir: ImageFolder, conf: dict):
     # Get the number of images in the dataset
     data_size = len(images_dir)
-    #print('images_dir: ', images_dir)
-    #print('len(images_dir:', len(images_dir))
 
     # Split the dataset into training and testing datasets with a 70-30 ratio
 
     train_size = int(0.8 * data_size)
-    #val_size = 0.1
-    test_size = data_size - train_size # -val_size
+    test_size = data_size - train_size
     (train_img_select, test_img_select) = random_split(images_dir, [train_size, test_size])
 
     # Create data loaders for the training and testing datasets
     train_img_dl = torch.utils.data.DataLoader(train_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
     test_img_dl = torch.utils.data.DataLoader(test_img_select, batch_size=conf['batch'], shuffle=True, num_workers=0)
 
+    model = Train.model_type_to_model(model_type=conf['model'], num_classes=len(images_dir.classes))
+    optimiser = Train.optimiser_type_to_optimiser(optimiser_type=conf['optim'], model=model, lr=conf['lr'])
+
     # Train a model on the training dataset and obtain the model and its training statistics
-    (model, (train_losses, train_accuracies)) = Train.run(model_type=conf['model'],
-                                                          epochs=conf['epochs'],
-                                                          lr=conf['lr'],
-                                                          optim_type=conf['optim'],
-                                                          num_classes=len(images_dir.classes),
-                                                          images=train_img_dl)
+    (model, (train_losses, train_accuracies)) = Train.run(epochs=conf['epochs'],
+                                                          images=train_img_dl,
+                                                          model=model,
+                                                          optimiser=optimiser)
 
     # Test the trained model on the testing dataset and obtain its test statistics
-    (test_losses, test_accuracies) = Test.run(epochs=conf['epochs'], images=test_img_dl, model=model)
+    (model, (test_losses, test_accuracies)) = Test.run(train_losses=train_losses,
+                                                       train_accuracies=train_accuracies,
+                                                       epochs=conf['epochs'],
+                                                       images=test_img_dl,
+                                                       model=model,
+                                                       optimiser=optimiser)
 
     # Plot the training and testing statistics
     Performance.plots(train_accuracies=train_accuracies,

@@ -8,11 +8,8 @@ from tqdm import tqdm
 torch.manual_seed(42)
 
 
-def run(model_type: str, epochs: int, lr: float, optim_type: str, num_classes: int,
-        images: DataLoader):  # -> (object, dict):
-    model = model_type_to_model(model_type, num_classes=num_classes)
-    optim = optimiser_type_to_optimiser(optimiser_type=optim_type, model=model, lr=lr)
-    model, (train_losses, train_accuracies) = train(epochs=epochs, images=images, model=model, optim=optim)
+def run(epochs: int, images: DataLoader, model, optimiser):  # -> (object, (list, list)):
+    model, (train_losses, train_accuracies) = train(epochs=epochs, images=images, model=model, optimiser=optimiser)
     torch.save(model, 'out/model.pth')
     print("Model saved to out/model.pth")
     torch.save(model.state_dict(), 'out/model_state_dict.txt')
@@ -20,13 +17,13 @@ def run(model_type: str, epochs: int, lr: float, optim_type: str, num_classes: i
     return model, (train_losses, train_accuracies)
 
 
-def train(epochs: int, images: DataLoader, model, optim):
+def train(epochs: int, images: DataLoader, model, optimiser):  # -> (object, (list, list)):
     print("Training has started.")
     train_losses = []
     train_accuracies = []
 
     for epoch in range(epochs):
-        (model, (train_loss, train_accuracy)) = _epoch_train(images=images, model=model, optim=optim)
+        (model, (train_loss, train_accuracy)) = _epoch_train(images=images, model=model, optimiser=optimiser)
         train_losses.append(train_loss)
         train_accuracies.append(train_accuracy)
 
@@ -34,7 +31,7 @@ def train(epochs: int, images: DataLoader, model, optim):
     return model, (train_losses, train_accuracies)
 
 
-def _epoch_train(images: DataLoader, model, optim: object):
+def _epoch_train(images: DataLoader, model, optimiser: object):  # -> object, (list, list):
     # Loss criterion will always be CrossEntropy
     criterion = nn.CrossEntropyLoss()
 
@@ -51,13 +48,13 @@ def _epoch_train(images: DataLoader, model, optim: object):
         inputs, labels = data
 
         # zero the parameter gradients
-        optim.zero_grad()
+        optimiser.zero_grad()
 
         # forward + backward + optimise
         outputs = model(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
-        optim.step()
+        optimiser.step()
 
         # statistics
         running_loss += loss.item()

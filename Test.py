@@ -8,11 +8,13 @@ from torch.utils.data import DataLoader
 from torchvision import *
 from tqdm import tqdm
 
+import Train
+
 # Loss criterion will always be CrossEntropy
 criterion = nn.CrossEntropyLoss()
 
 
-def run(epochs: int, images: DataLoader, model) -> (list, list):
+def run(train_losses: list, train_accuracies: list, epochs: int, images: DataLoader, model, optimiser) -> (list, list):
     print("Testing has started.")
     test_losses = []
     test_accuracies = []
@@ -21,9 +23,13 @@ def run(epochs: int, images: DataLoader, model) -> (list, list):
         (test_loss, test_accuracy) = _epoch_test(images=images, model=model)
         test_losses.append(test_loss)
         test_accuracies.append(test_accuracy)
+        # Iterate training
+        (model, (train_loss, train_accuracy)) = Train._epoch_train(images=images, model=model, optimiser=optimiser)
+        train_losses.append(train_loss)
+        train_accuracies.append(train_accuracy)
 
     print("Testing has ended.")
-    return test_losses, test_accuracies
+    return model, (test_losses, test_accuracies, train_losses, train_accuracies)
 
 
 def _epoch_test(images: DataLoader, model) -> (list, list):
