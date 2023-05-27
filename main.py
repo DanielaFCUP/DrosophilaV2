@@ -25,7 +25,7 @@ def run_learn(images_dir: ImageFolder, conf: dict):
 
     # Split the dataset into training and testing datasets with a 70-30 ratio
 
-    train_size = int(0.8 * data_size)
+    train_size = int(0.7 * data_size)
     test_size = data_size - train_size
     (train_img_select, test_img_select) = random_split(images_dir, [train_size, test_size])
 
@@ -37,7 +37,7 @@ def run_learn(images_dir: ImageFolder, conf: dict):
     optimiser = Learn.optimiser_type_to_optimiser(optimiser_type=conf['optim'], model=model, lr=conf['lr'])
 
     # Train and Test a model on the dataset and obtain the model and its statistics
-    (model, (train_losses, train_accuracies, test_losses, test_accuracies)) = Learn.run(epochs=conf['epochs'],
+    (model, (train_losses, train_accuracies, test_losses, test_accuracies), f1_epochs) = Learn.run(epochs=conf['epochs'],
                                                                                         train_images=train_img_dl,
                                                                                         test_images=test_img_dl,
                                                                                         model=model,
@@ -47,7 +47,9 @@ def run_learn(images_dir: ImageFolder, conf: dict):
     Performance.plots(train_accuracies=train_accuracies,
                       test_accuracies=test_accuracies,
                       train_losses=train_losses,
-                      test_losses=test_losses)
+                      test_losses=test_losses,
+                      f1_epochs=f1_epochs,
+                    class_names=conf['class_names'])
 
     # Evaluate the model's F1 score and confusion matrix on the testing dataset
     class_report = Learn.f1_and_confusion_matrix(images=test_img_dl, model=model, class_names=conf['class_names'])

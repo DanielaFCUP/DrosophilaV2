@@ -15,8 +15,8 @@ torch.manual_seed(42)
 criterion = nn.CrossEntropyLoss()
 
 
-def run(epochs: int, train_images: DataLoader, test_images: DataLoader, model, optimiser):  # -> (object, (list, list, list, list)):
-    model, (train_losses, train_accuracies, test_losses, test_accuracies) = train(epochs=epochs,
+def run(epochs: int, train_images: DataLoader, test_images: DataLoader, model, optimiser):  # -> (object, (list, list, list, list):
+    model, (train_losses, train_accuracies, test_losses, test_accuracies), f1_epochs = train(epochs=epochs,
                                                                                   train_images=train_images,
                                                                                   test_images=test_images,
                                                                                   model=model,
@@ -25,28 +25,29 @@ def run(epochs: int, train_images: DataLoader, test_images: DataLoader, model, o
     print("Model saved to out/model.pth")
     torch.save(model.state_dict(), 'out/model_state_dict.txt')
     print("Model's state dictionary saved to out/model.pth")
-    return model, (train_losses, train_accuracies, test_losses, test_accuracies)
+    return model, (train_losses, train_accuracies, test_losses, test_accuracies), f1_epochs
 
 
-def train(epochs: int, train_images: DataLoader, test_images:DataLoader, model, optimiser):  # -> (object, (list, list, list, list)):
+def train(epochs: int, train_images: DataLoader, test_images: DataLoader, model, optimiser):  # -> (object, (list, list, list, list)):
     print("Training has started.")
     train_losses = []
     train_accuracies = []
     test_losses = []
     test_accuracies = []
+    f1_epochs = []
 
-    for epoch in range(epochs):
+    for epoch in range(1, epochs+1):
         # Train
         (model, (train_loss, train_accuracy)) = _epoch_train(images=train_images, model=model, optimiser=optimiser)
         train_losses.append(train_loss)
         train_accuracies.append(train_accuracy)
         # Test
-        (test_loss, test_accuracy) = _epoch_test(images=test_images, model=model)
+        (test_loss, test_accuracy, f1_score_class) = _epoch_test(images=test_images, model=model)
         test_losses.append(test_loss)
         test_accuracies.append(test_accuracy)
+        f1_epochs.append(f1_score_class)
 
-    print("Training has ended.")
-    return model, (train_losses, train_accuracies, test_losses, test_accuracies)
+    return model, (train_losses, train_accuracies, test_losses, test_accuracies), f1_epochs
 
 
 def _epoch_train(images: DataLoader, model, optimiser: object):  # -> object, (list, list):
@@ -91,6 +92,9 @@ def _epoch_test(images: DataLoader, model) -> (list, list):
     correct = 0
     total = 0
     running_loss = 0
+    f1_class = []
+    correct_predictions = []
+    model_predictions = []
 
     # since we're not training, we don't need to calculate the gradients for our outputs
     with torch.no_grad():
@@ -109,10 +113,18 @@ def _epoch_test(images: DataLoader, model) -> (list, list):
             loss = criterion(outputs, labels)
             running_loss += loss.item()
 
+            # F1-score
+
+            correct_predictions += labels.numpy().tolist()
+            model_predictions += predicted.numpy().tolist()
+
+        f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
+        f1_class.append(f1_score_class)
+
     test_loss = running_loss / len(images)
     test_accuracy = 100. * correct / total
     print("Test Loss: %.3f | Accuracy: %.3f" % (test_loss, test_accuracy))
-    return test_loss, test_accuracy
+    return test_loss, test_accuracy, f1_score_class
 
 
 def optimiser_type_to_optimiser(optimiser_type: str, model, lr: float) -> object:
@@ -165,7 +177,6 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
     running_loss = 0
     correct_predictions = []  # Ground-truth labels for the test set
     model_predictions = []  # List of the predicted labels for the test set
-    f1_class = []
 
     # since we're not training, we don't need to calculate the gradients for our outputs
     with torch.no_grad():
@@ -185,27 +196,11 @@ def f1_and_confusion_matrix(images: DataLoader, model, class_names: list) -> str
             running_loss += loss.item()
             _, predicted = outputs.max(1)
 
-            # F1 score
-            correct_predictions += labels.numpy().tolist()
-            model_predictions += predicted.numpy().tolist()
-
-            f1_score_class = f1_score(correct_predictions, model_predictions, average=None)
-            f1_class.append(f1_score_class)
-
             # Build confusion matrix
             _, predicted = torch.max(outputs.data, 1)
             correct_predictions += labels.numpy().tolist()
             model_predictions += predicted.tolist()
 
-    # F1 Score
-    print(f1_class)
-    plt.plot(f1_class, '-o')
-    plt.xlabel('Batch')
-    plt.ylabel('F1-score')
-    plt.legend(class_names)
-    plt.title('F1')
-    plt.savefig('out/plots/f1-score.png')
-    plt.show()
 
     # Confusion Matrix
     cf_matrix = confusion_matrix(correct_predictions, model_predictions)
